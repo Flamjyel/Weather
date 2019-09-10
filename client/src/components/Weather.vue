@@ -5,35 +5,27 @@
       <div class="header-panel col-lg-12">
         Погода в Ростове-на-Дону
       </div>
-      <div class="body-panel col-lg-12">
-        <div class="card-weather">
-          <b-card
-            :title="textcurrentdate"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2"
-          >
-            <b-card-text v-if="weatherData">
-              {{ temp }}
-            </b-card-text>
-          </b-card>
+      <div class="body-panel col-lg-12" v-if="weatherData">
+        <div>
+          <b-card-group deck>
+            <b-card v-for="item in arrayCard"
+             :title= item.date
+             :img-src = item.icon img-alt="Card image"img-top>
+              <b-card-text>
+                {{ item.temperature }}
+              </b-card-text>
+            </b-card>
+          </b-card-group>
         </div>
       </div>
     </b-row>
   </b-container>
-  <div>
-   <!-- {{weatherData.data.list}} -->
-  </div>
 </div>
 </template>
 
 <script>
 
 import axios from 'axios'
-// import WeatherApi from '@/services/WeatherOpenMapApi'
 import MidTemp from '@/services/MidDailyTemp'
 export default {
 
@@ -41,7 +33,8 @@ export default {
     return {
       weatherData: null,
       temp: null,
-      time: null
+      time: null,
+      arrayCard: []
     }
   },
   methods: {
@@ -58,14 +51,23 @@ export default {
   },
 
   mounted () {
-    // WeatherApi.getApi(this.weatherData)
     axios
       .get('http://api.openweathermap.org/data/2.5/forecast?APPID=4502dec827ac30b2e0603b04f4d95e30&id=501175')
       .then(response => {
         this.weatherData = response
         this.time = this.currentdate
-        this.temp = MidTemp.getTemp(this.time.getDate(), this.weatherData.data.list)
-        console.log(this.time)
+        for (let i = 0; i <= 2; i++) {
+          this.temp = MidTemp.getTemp(this.time.getDate(), this.weatherData.data.list)
+          this.arrayCard[i] = new MidTemp.CardObj(this.time.getDate() + ' ' + MidTemp.getTextMonth(this.time.getMonth()), this.temp)
+          if (i === 0) {
+            this.arrayCard[i].icon = 'static/icons/' + MidTemp.getIcon(this.weatherData.data.list, this.time) + '.png'
+          }
+          else {
+            this.time.setHours(12)
+            this.arrayCard[i].icon = 'static/icons/' + MidTemp.getIcon(this.weatherData.data.list, this.time) + '.png'
+          }
+          this.time.setDate(this.time.getDate() + 1)
+        }
       })
   }
 
