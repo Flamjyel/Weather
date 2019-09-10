@@ -8,7 +8,7 @@
       <div class="body-panel col-lg-12">
         <div class="card-weather">
           <b-card
-            title="Cреднесуточная температура"
+            :title="textcurrentdate"
             img-src="https://picsum.photos/600/300/?image=25"
             img-alt="Image"
             img-top
@@ -16,44 +16,57 @@
             style="max-width: 20rem;"
             class="mb-2"
           >
-            <b-card-text>
-              {{ Math.round(weatherData.data.list[0].main.temp - 273,15) }}
+            <b-card-text v-if="weatherData">
+              {{ temp }}
             </b-card-text>
           </b-card>
         </div>
       </div>
     </b-row>
   </b-container>
-  <!-- <div>
-    <button v-on:click="getdataTemp">test</button>
-  </div> -->
+  <div>
+   <!-- {{weatherData.data.list}} -->
+  </div>
 </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+// import WeatherApi from '@/services/WeatherOpenMapApi'
+import MidTemp from '@/services/MidDailyTemp'
 export default {
 
   data () {
     return {
-      weatherData: null
+      weatherData: null,
+      temp: null,
+      time: null
     }
   },
   methods: {
-    getDataTemp () {
-      var day = new Date()
-      console.log(day)
-      return day.getData()
+
+  },
+  computed: {
+    currentdate: function () {
+      return new Date()
+    },
+    textcurrentdate: function () {
+      return this.currentdate.getDate() + '.' + (this.currentdate.getMonth() + 1)
     }
 
   },
 
   mounted () {
+    // WeatherApi.getApi(this.weatherData)
     axios
       .get('http://api.openweathermap.org/data/2.5/forecast?APPID=4502dec827ac30b2e0603b04f4d95e30&id=501175')
-      .then(response => (this.weatherData = response))
-    console.log(this.weatherData)
+      .then(response => {
+        this.weatherData = response
+        this.time = this.currentdate
+        this.temp = MidTemp.getTemp(this.time.getDate(), this.weatherData.data.list)
+        console.log(this.time)
+      })
   }
 
 }

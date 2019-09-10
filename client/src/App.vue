@@ -8,12 +8,12 @@
 
 <script>
 import PageHeader from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
+import FooterPage from '@/components/FooterPage.vue'
 export default {
   name: 'App',
   components: {
     PageHeader,
-    Footer
+    FooterPage
   }
 }
 </script>
