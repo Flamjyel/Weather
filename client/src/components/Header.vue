@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar .navbar-dark">
+<nav class="navbar navbar-fixed-top container-fluid">
       <h1>Weather</h1>
 </nav>
 </template>
@@ -11,7 +11,9 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: #162955;
+  background-color: #196360;
+  box-shadow: 0 5px 30px 10px #ffffff;
+  width: 100%;
 }
 h1 {
   color:aliceblue;

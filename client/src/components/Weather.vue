@@ -7,11 +7,10 @@
       </div>
       <div class="body-panel col-lg-12" v-if="weatherData">
         <div>
-          <b-card-group deck>
-            <b-card v-for="item in arrayCard"
-             :title= item.date
-             :img-src = item.icon img-alt="Card image"img-top>
-              <b-card-text>
+          <b-card-group deck class="weather-cards">
+            <b-card v-for="item in arrayCard" :title= item.date class="card">
+             <b-card-img :src = item.icon alt="Card image" class="img-card"></b-card-img>
+              <b-card-text class="text-card">
                 {{ item.temperature }}
               </b-card-text>
             </b-card>
@@ -56,14 +55,18 @@ export default {
       .then(response => {
         this.weatherData = response
         this.time = this.currentdate
-        for (let i = 0; i <= 2; i++) {
-          this.temp = MidTemp.getTemp(this.time.getDate(), this.weatherData.data.list)
-          this.arrayCard[i] = new MidTemp.CardObj(this.time.getDate() + ' ' + MidTemp.getTextMonth(this.time.getMonth()), this.temp)
+        for (let i = 0; i <= 3; i++) {
           if (i === 0) {
-            this.arrayCard[i].icon = 'static/icons/' + MidTemp.getIcon(this.weatherData.data.list, this.time) + '.png'
+            this.temp = Math.round(this.weatherData.data.list[0].main.temp - 273.15) + '℃'
+            this.arrayCard[i] = new MidTemp.CardObj()
+            this.arrayCard[i].date = "Сейчас"
+            this.arrayCard[i].temperature = this.temp
+            this.arrayCard[i].icon = 'static/icons/' + this.weatherData.data.list[0].weather[0].icon + '.png'
           }
           else {
+            this.temp = MidTemp.getTemp(this.time.getDate(), this.weatherData.data.list) + '℃'
             this.time.setHours(12)
+            this.arrayCard[i] = new MidTemp.CardObj(this.time.getDate() + ' ' + MidTemp.getTextMonth(this.time.getMonth()), this.temp)
             this.arrayCard[i].icon = 'static/icons/' + MidTemp.getIcon(this.weatherData.data.list, this.time) + '.png'
           }
           this.time.setDate(this.time.getDate() + 1)
@@ -76,7 +79,8 @@ export default {
 
 <style>
 .panel {
-   margin-top: 10%;
+   margin-top: 15%;
+   clear: both;
 }
 
 .header-panel {
@@ -84,18 +88,35 @@ export default {
   color:aliceblue;
   padding-left: 15%;
   height: 10%;
-  background-color: #162955;
+  background-color: #196360;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 
 }
 
 .body-panel {
-  background-color: #d3d3d3;
+  background-color: #acd5e7;
+  border: solid 1px #196360;
 }
 
-.card-weather {
-  padding-top: 2%;
+.weather-cards {
+  padding: 2%;
+}
+.card {
+  border:2px solid #196360;
+  background-color: #ffffff;
+}
+.img-card {
+  display: block;
+  width: 50%;
+  height: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.text-card {
+  text-align: center;
+  font-size: 200%;
+  padding: 3%;
 }
 
 </style>
