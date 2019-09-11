@@ -1,6 +1,6 @@
 <template>
 <div>
-  <b-container>
+  <b-container class="content">
     <b-row class="panel col-lg-12">
       <div class="header-panel col-lg-12">
         Погода в Ростове-на-Дону
@@ -42,9 +42,6 @@ export default {
   computed: {
     currentdate: function () {
       return new Date()
-    },
-    textcurrentdate: function () {
-      return this.currentdate.getDate() + '.' + (this.currentdate.getMonth() + 1)
     }
 
   },
@@ -59,7 +56,7 @@ export default {
           if (i === 0) {
             this.temp = Math.round(this.weatherData.data.list[0].main.temp - 273.15) + '℃'
             this.arrayCard[i] = new MidTemp.CardObj()
-            this.arrayCard[i].date = "Сейчас"
+            this.arrayCard[i].date = 'Сейчас'
             this.arrayCard[i].temperature = this.temp
             this.arrayCard[i].icon = 'static/icons/' + this.weatherData.data.list[0].weather[0].icon + '.png'
           }
@@ -118,5 +115,21 @@ export default {
   font-size: 200%;
   padding: 3%;
 }
+.content {
+  height: 100%;
+  margin-bottom: 15%;
+}
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px) {
+
+.header-panel {
+  min-width: 100%;
+	height: 20%;
+	text-align: center;
+  font-size: 100%;
+}
+}
+
 
 </style>

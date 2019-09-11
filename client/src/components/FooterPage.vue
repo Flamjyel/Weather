@@ -7,6 +7,7 @@
 <script>
 
 export default {
+
 }
 </script>
 
@@ -16,13 +17,16 @@ export default {
   height: 150px;
   padding: 17px 0 18px 0;
   margin-bottom: 0px;
+  margin-top: auto;
   clear: both;
-  position: absolute;
+  position: fixed;
   left: 0;
+  right: 0;
   bottom: 0;
   width: 100%;
   height: 80px;
 }
+
 a {
   color: white;
   text-decoration: none;
@@ -34,5 +38,17 @@ a:hover {
 p {
     font-size: 120%;
 }
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px) {
+
+.footer {
+  min-width: 100%;
+	height: 20%;
+	text-align: center;
+  position: relative;
+}
+}
+
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar navbar-fixed-top container-fluid">
+<nav class="navbar container-fluid">
       <h1>Weather</h1>
 </nav>
 </template>
@@ -13,7 +13,6 @@ export default {
 .navbar {
   background-color: #196360;
   box-shadow: 0 5px 30px 10px #ffffff;
-  width: 100%;
 }
 h1 {
   color:aliceblue;
@@ -22,4 +21,18 @@ h1 {
   font-style: normal;
   padding-left: 15%;
 }
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px) {
+
+.navbar {
+  min-width: 100%;
+	height: 20%;
+	text-align: center;
+}
+h1 {
+    font-size: 400%;
+    padding: 0;
+}}
+
 </style>
